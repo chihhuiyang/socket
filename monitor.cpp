@@ -21,8 +21,8 @@
 #define SERVER_B_PORT 22068
 #define SERVER_C_PORT 23068
 #define AWS_PORT 24068
-#define CLIENT_TCP_PORT 25068
-#define MONITOR_TCP_PORT 26068
+#define AWS_CLIENT_TCP_PORT 25068
+#define AWS_MONITOR_TCP_PORT 26068
 #define BUFFER_SIZE 50
 #define BACKLOG 10
 
@@ -65,7 +65,7 @@ int main() {
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = PF_INET;
     server_addr.sin_addr.s_addr = inet_addr(localhost);
-    server_addr.sin_port = MONITOR_TCP_PORT;
+    server_addr.sin_port = htons(AWS_MONITOR_TCP_PORT);
 
 
     cout << "The monitor is up and running" << endl;

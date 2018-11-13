@@ -21,8 +21,8 @@
 #define SERVER_B_PORT 22068
 #define SERVER_C_PORT 23068
 #define AWS_PORT 24068
-#define CLIENT_TCP_PORT 25068
-#define MONITOR_TCP_PORT 26068
+#define AWS_CLIENT_TCP_PORT 25068
+#define AWS_MONITOR_TCP_PORT 26068
 #define BUFFER_SIZE 50
 #define BACKLOG 10
 
@@ -76,10 +76,10 @@ int main(int argc, char const *argv[]){
 
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
-    // server info
+    // AWS server info
     server_addr.sin_family = PF_INET;
     server_addr.sin_addr.s_addr = inet_addr(localhost);
-    server_addr.sin_port = CLIENT_TCP_PORT;    
+    server_addr.sin_port = htons(AWS_CLIENT_TCP_PORT);
 
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
         perror("Failed to create TCP socket.");

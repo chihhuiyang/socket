@@ -21,8 +21,8 @@
 #define SERVER_B_PORT 22068
 #define SERVER_C_PORT 23068
 #define AWS_PORT 24068
-#define CLIENT_TCP_PORT 25068
-#define MONITOR_TCP_PORT 26068
+#define AWS_CLIENT_TCP_PORT 25068
+#define AWS_MONITOR_TCP_PORT 26068
 #define BUFFER_SIZE 50
 #define BACKLOG 10
 
@@ -82,7 +82,7 @@ int main() {
     // server info
     server_C_addr.sin_family = PF_INET;
     server_C_addr.sin_addr.s_addr = inet_addr(localhost); 
-    server_C_addr.sin_port = SERVER_C_PORT; 
+    server_C_addr.sin_port = htons(SERVER_C_PORT); 
    
     // bind the socket
     if (bind(socket_c, (struct sockaddr *)&server_C_addr, sizeof(server_C_addr)) < 0) {
@@ -165,7 +165,7 @@ int main() {
             socklen_t aws_addr_len = sizeof(aws_addr);
             aws_addr.sin_family = PF_INET;
             aws_addr.sin_addr.s_addr = inet_addr(localhost);
-            aws_addr.sin_port = AWS_PORT;
+            aws_addr.sin_port = htons(AWS_PORT);
 
             
             // send to AWS
