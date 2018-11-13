@@ -79,7 +79,7 @@ int main(int argc, char const *argv[]){
     // AWS server info
     server_addr.sin_family = PF_INET;
     server_addr.sin_addr.s_addr = inet_addr(localhost);
-    server_addr.sin_port = htons(AWS_CLIENT_TCP_PORT);
+    server_addr.sin_port = AWS_CLIENT_TCP_PORT;
 
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
         perror("Failed to create TCP socket.");

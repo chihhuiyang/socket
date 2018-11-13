@@ -65,7 +65,7 @@ int main() {
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = PF_INET;
     server_addr.sin_addr.s_addr = inet_addr(localhost);
-    server_addr.sin_port = htons(AWS_MONITOR_TCP_PORT);
+    server_addr.sin_port = AWS_MONITOR_TCP_PORT;
 
 
     cout << "The monitor is up and running" << endl;

@@ -70,7 +70,7 @@ void query_server_A(string link_id) {
     }
     server_A.sin_family = PF_INET;
     server_A.sin_addr.s_addr = inet_addr(localhost);
-    server_A.sin_port = htons(SERVER_A_PORT);
+    server_A.sin_port = SERVER_A_PORT;
     // send to server A
     char send_to_server_buffer[BUFFER_SIZE];
     strncpy(send_to_server_buffer, link_id.c_str(), sizeof(link_id));    
@@ -91,7 +91,7 @@ void query_server_B(string link_id) {
     }
     server_B.sin_family = PF_INET;
     server_B.sin_addr.s_addr = inet_addr(localhost);
-    server_B.sin_port = htons(SERVER_B_PORT);
+    server_B.sin_port = SERVER_B_PORT;
     // send to server B
     char send_to_server_buffer[BUFFER_SIZE];
     strncpy(send_to_server_buffer, link_id.c_str(), sizeof(link_id));    
@@ -112,7 +112,7 @@ void query_server_C(char* input) {
     }
     server_C.sin_family = PF_INET;
     server_C.sin_addr.s_addr = inet_addr(localhost);
-    server_C.sin_port = htons(SERVER_C_PORT);
+    server_C.sin_port = SERVER_C_PORT;
     // send to server C
     char send_to_server_buffer[BUFFER_SIZE];
     strncpy(send_to_server_buffer, input, sizeof(input));    
@@ -151,7 +151,7 @@ void aws_send_to_server_A() {
     }
     server_A.sin_family = PF_INET;
     server_A.sin_addr.s_addr = inet_addr(localhost);
-    server_A.sin_port = htons(SERVER_A_PORT);
+    server_A.sin_port = SERVER_A_PORT;
     string empty = "";
     sendto(sock_A, empty.c_str(), sizeof(empty), 0, (struct sockaddr*) &server_A, sizeof(server_A)); 
     close(sock_A);
@@ -168,7 +168,7 @@ void aws_send_to_server_B() {
     }
     server_B.sin_family = PF_INET;
     server_B.sin_addr.s_addr = inet_addr(localhost);
-    server_B.sin_port = htons(SERVER_B_PORT);
+    server_B.sin_port = SERVER_B_PORT;
     string empty = "";
     sendto(sock_B, empty.c_str(), sizeof(empty), 0, (struct sockaddr*) &server_B, sizeof(server_B)); 
     close(sock_B);
@@ -185,7 +185,7 @@ void aws_send_to_server_C() {
     }
     server_C.sin_family = PF_INET;
     server_C.sin_addr.s_addr = inet_addr(localhost);
-    server_C.sin_port = htons(SERVER_C_PORT);
+    server_C.sin_port = SERVER_C_PORT;
     string empty = "";
     sendto(sock_C, empty.c_str(), sizeof(empty), 0, (struct sockaddr*) &server_C, sizeof(server_C)); 
     close(sock_C);
@@ -218,7 +218,7 @@ int main(){
     }    
     aws_udp_addr.sin_family = PF_INET;
     aws_udp_addr.sin_addr.s_addr = inet_addr(localhost);
-    aws_udp_addr.sin_port = htons(AWS_PORT);
+    aws_udp_addr.sin_port = AWS_PORT;
     bind(sock_udp, (struct sockaddr *)&aws_udp_addr, sizeof(aws_udp_addr));
     // TCP to client
     struct sockaddr_in aws_client_tcp_addr;
@@ -230,7 +230,7 @@ int main(){
     }      
     aws_client_tcp_addr.sin_family = PF_INET;
     aws_client_tcp_addr.sin_addr.s_addr = inet_addr(localhost);
-    aws_client_tcp_addr.sin_port = htons(AWS_CLIENT_TCP_PORT);
+    aws_client_tcp_addr.sin_port = AWS_CLIENT_TCP_PORT;
     bind(sock_client_tcp, (struct sockaddr *)&aws_client_tcp_addr, sizeof(aws_client_tcp_addr));
     // TCP to monitor
     struct sockaddr_in aws_monitor_tcp_addr; 
@@ -242,7 +242,7 @@ int main(){
     }      
     aws_monitor_tcp_addr.sin_family = PF_INET;
     aws_monitor_tcp_addr.sin_addr.s_addr = inet_addr(localhost);
-    aws_monitor_tcp_addr.sin_port = htons(AWS_MONITOR_TCP_PORT);
+    aws_monitor_tcp_addr.sin_port = AWS_MONITOR_TCP_PORT;
     bind(sock_monitor_tcp, (struct sockaddr *)&aws_monitor_tcp_addr, sizeof(aws_monitor_tcp_addr));
     
     cout<<"The AWS is up and running"<<endl;
@@ -365,7 +365,7 @@ int main(){
             exit(1);
         }
         query_server_C.sin_family = PF_INET;
-        query_server_C.sin_port = htons(SERVER_C_PORT);
+        query_server_C.sin_port = SERVER_C_PORT;
         query_server_C.sin_addr.s_addr = inet_addr(localhost);
         // send to server C
         sendto(sock_C, send_to_server_C, sizeof(send_to_server_C), 0, (struct sockaddr*) &query_server_C, sizeof(query_server_C));  

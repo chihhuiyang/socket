@@ -99,7 +99,7 @@ int main() {
     // server info
     server_B_addr.sin_family = PF_INET;
     server_B_addr.sin_addr.s_addr = inet_addr(localhost); 
-    server_B_addr.sin_port = htons(SERVER_B_PORT); 
+    server_B_addr.sin_port = SERVER_B_PORT; 
    
     // bind the socket
     if (bind(socket_B, (struct sockaddr *)&server_B_addr, sizeof(server_B_addr)) < 0) {
@@ -165,7 +165,7 @@ int main() {
             socklen_t aws_addr_len = sizeof(aws_addr);
             aws_addr.sin_family = PF_INET;
             aws_addr.sin_addr.s_addr = inet_addr(localhost);
-            aws_addr.sin_port = htons(AWS_PORT);
+            aws_addr.sin_port = AWS_PORT;
 
             
             fill_buffer(send_buffer);
