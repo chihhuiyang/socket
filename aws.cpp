@@ -398,13 +398,13 @@ int main(){
         int found = (int)vec_final[0];        
 
         if (found == 0) {
-            cout << "The AWS sent No Match to the monitor and the client using TCP over ports <#####> and <#####>, respectively" << endl;
+            cout << "The AWS sent No Match to the monitor and the client using TCP over ports <" << aws_client_tcp_addr.sin_port << "> and <" << aws_monitor_tcp_addr.sin_port << ">, respectively" << endl;
         } else if (found == 1) {
             double delay = vec_final[1];  
             double transmission_time = vec_final[2];  
             double propagation_time = vec_final[3];
-            cout << "The AWS sent delay=<" << delay << ">ms to the client using TCP over port <#####>" << endl;
-            cout << "The AWS sent detailed results to the monitor using TCP over port <#####>" << endl; 
+            cout << "The AWS sent delay=<" << delay << ">ms to the client using TCP over port <" << aws_client_tcp_addr.sin_port << ">" << endl;
+            cout << "The AWS sent detailed results to the monitor using TCP over port <" << aws_monitor_tcp_addr.sin_port << ">" << endl; 
 
         }
         // send delay result to client
