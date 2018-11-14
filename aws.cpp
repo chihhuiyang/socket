@@ -41,6 +41,17 @@ vector<double> split(const string &s, char delim) {
     return res;
 }
 
+vector<string> splitToString(const string &s, char delim) {
+    vector<string> res;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        string val = item.c_str();
+        res.push_back(val);
+    }
+    return res;
+}
+
 void extract_buffer(char *buffer) {
     int i = 0;
     while (buffer[i] != '*') {
@@ -249,7 +260,7 @@ int main(){
 
     while (true) {
         // listen monitor : before listen client
-        cout << "###listen monitor" << endl;
+        // cout << "###listen monitor" << endl;
         listen(sock_monitor_tcp, BACKLOG);
         struct sockaddr_in monitor_addr;
         socklen_t monitor_len = sizeof(struct sockaddr_in);
@@ -259,7 +270,7 @@ int main(){
             exit(1);
         }
         // listen client
-        cout << "###listen client" << endl;
+        // cout << "###listen client" << endl;
         listen(sock_client_tcp, BACKLOG);
         struct sockaddr_in client_addr;
         socklen_t client_len = sizeof(struct sockaddr_in);
@@ -278,15 +289,11 @@ int main(){
         extract_buffer(recv_buffer);
         strcpy(copy_buffer, recv_buffer);
         copy_buffer[BUFFER_SIZE] = '\0';
-        vector<double> vec = split(copy_buffer, ' ');
-        // convert double to string
-        ostringstream v0, v1, v2;
-        v0 << vec[0];
-        v1 << vec[1];
-        v2 << vec[2];
-        string link_id = v0.str();
-        string bit_size = v1.str();
-        string power = v2.str();   
+        vector<string> vec = splitToString(copy_buffer, ' ');
+        string link_id = vec[0];
+        string bit_size = vec[1];
+        string power = vec[2];   
+
         cout << "The AWS received link ID=<" << link_id << ">, size=<" << bit_size << ">, and power=<" << power << ">";
         cout << " from the client using TCP over port <" << aws_client_tcp_addr.sin_port << ">" << endl;
 
@@ -392,6 +399,8 @@ int main(){
         extract_buffer(recv_C_buffer);
 
 
+
+
         // case 1 (found) : 1 delay transmission_time propagation_time 
         // case 2 (no match) : 0 
         vector<double> vec_final = split(recv_C_buffer, ' ');
@@ -407,11 +416,18 @@ int main(){
             cout << "The AWS sent detailed results to the monitor using TCP over port <" << aws_monitor_tcp_addr.sin_port << ">" << endl; 
 
         }
-        // send delay result to client
-        send(client_tcp_child, recv_C_buffer , sizeof(recv_C_buffer), 0); 
 
         // send delay result to monitor
-        send(monitor_tcp_child, recv_C_buffer , sizeof(recv_C_buffer), 0);
+        if (send(monitor_tcp_child, recv_C_buffer , sizeof(recv_C_buffer), 0) < 0) {
+            perror("Failed to send result to monitor.");
+            exit(1);
+        }
+
+        // send delay result to client
+        if (send(client_tcp_child, recv_C_buffer , sizeof(recv_C_buffer), 0) < 0) {
+            perror("Failed to send result to client.");
+            exit(1);
+        }        
 
     }
     return 0;

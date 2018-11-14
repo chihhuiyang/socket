@@ -88,14 +88,18 @@ int main(int argc, char const *argv[]){
     cout << "The client is up and running" << endl;
 
     // connect
-    while (true) {
-        if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-            // continue
-        } else {
-            break;
-        }     
+    // while (true) {
+    //     if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    //         // continue
+    //     } else {
+    //         break;
+    //     }     
+    // }
+    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        close(sock);
+        perror("Failed to connect.");
+        exit(1);
     }
-
 
     // send to server
     memset(send_to_server_buffer, 0, sizeof(send_to_server_buffer));
@@ -109,8 +113,13 @@ int main(int argc, char const *argv[]){
     cout << "The client sent link ID=<" << link_id << ">, size=<" << bit_size << ">, and power=<" << power << "> to AWS" << endl;
 
     // receive result from server
+    cout << "wait for AWS's delay" << endl;
     memset(recv_from_server_buffer, '\0', sizeof(recv_from_server_buffer));
     int recv_len = recv(sock, recv_from_server_buffer, sizeof(recv_from_server_buffer), 0);
+    if (recv_len < 0) {
+        perror("Faile to receive");
+        exit(1);
+    }
     recv_from_server_buffer[BUFFER_SIZE] = '\0';
     // cout << "recv_from_server_buffer:" << recv_from_server_buffer << endl;
     extract_buffer(recv_from_server_buffer);

@@ -29,9 +29,8 @@ client.cpp : receive "1 delay transmission_time propagation_time"  or "0"
 
 g. Any idiosyncrasy of your project. It should say under what conditions the project
 fails, if any.
-The code I wrote is that AWS will listen to monitor first, and then listen to client.
-So the execution order would be ./awsoutput -> ./monitoroutput -> ./client
-We cannot execute ./client before ./monitoroutput, or the AWS will continue waiting for monitor.
+If we sent Ctr-C to AWS, we need also sent Ctr-C to monitor, to reset the program.
+If we sent Ctr-C to monitor, we need also sent Ctr-C to AWS, to reset the program.
 
 h. Reused Code: Did you use code from anywhere for your project? If not, say so.
 If so, say what functions and where they're from. (Also identify this with a comment in the source code.)

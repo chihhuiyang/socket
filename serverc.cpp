@@ -42,6 +42,17 @@ vector<double> split(const string &s, char delim) {
     return res;
 }
 
+vector<string> splitToString(const string &s, char delim) {
+    vector<string> res;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        string val = item.c_str();
+        res.push_back(val);
+    }
+    return res;
+}
+
 void extract_buffer(char *buffer) {
     int i = 0;
     while (buffer[i] != '*') {
@@ -59,6 +70,7 @@ void fill_buffer(char *buffer) {
         *(buffer + j) = '*';
     }
 }
+
 
 int main() {
 
@@ -104,16 +116,22 @@ int main() {
             // extract all the double
             char copy_buffer[BUFFER_SIZE];
             strncpy(copy_buffer, recv_buffer, sizeof(recv_buffer));
-            // cout << "copy_buffer: " << copy_buffer << endl;         
-            vector<double> vec = split(copy_buffer, ' ');
+            // cout << "copy_buffer: " << copy_buffer << endl;
+            vector<string> vecs = splitToString(copy_buffer, ' ');
+            string link_id_s = vecs[1];
+            string bit_size_s = vecs[2];
+            string power_s = vecs[3]; 
 
+
+
+            vector<double> vec = split(copy_buffer, ' ');
             int found = (int)vec[0];
             double link_id = vec[1];  
             double bit_size = vec[2];  
             double power = vec[3];            
 
-            cout << "The server C received link information of link <" << link_id;
-            cout << ">, file size <" << bit_size << ">, and signal power <" << power << ">" << endl;
+            cout << "The server C received link information of link <" << link_id_s;
+            cout << ">, file size <" << bit_size_s << ">, and signal power <" << power_s << ">" << endl;
 
 
             // build send_buffer
@@ -163,7 +181,7 @@ int main() {
                 strcpy(send_buffer, "0");
             }
             
-            cout << "The server C finished the calculation for link <" << link_id << ">" << endl;
+            cout << "The server C finished the calculation for link <" << link_id_s << ">" << endl;
 
 
             // waiting AWS send to server C
