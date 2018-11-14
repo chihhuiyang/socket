@@ -113,7 +113,7 @@ int main(int argc, char const *argv[]){
     cout << "The client sent link ID=<" << link_id << ">, size=<" << bit_size << ">, and power=<" << power << "> to AWS" << endl;
 
     // receive result from server
-    cout << "wait for AWS's delay" << endl;
+    // cout << "wait for AWS's delay" << endl;
     memset(recv_from_server_buffer, '\0', sizeof(recv_from_server_buffer));
     int recv_len = recv(sock, recv_from_server_buffer, sizeof(recv_from_server_buffer), 0);
     if (recv_len < 0) {
