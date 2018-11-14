@@ -16,6 +16,7 @@
 #include <sstream>
 #include <iterator>
 #include <string>
+#include <math.h>
 
 #define SERVER_A_PORT 21068
 #define SERVER_B_PORT 22068
@@ -127,9 +128,25 @@ int main() {
                 double velocity = vec[7];
                 double noise_power = vec[8];
 
-                double delay = 987;
-                double transmission_time = 123;
-                double propagation_time = 456;
+
+                // C (bps)= B (Hz) log2(1 + S/N);
+                // P dbm = 10*log10(1000P)
+                // power / 10 = log10(1000*P)
+                // pow(10.0, power / 10.0) = 1000 * P;
+                double P_sig = pow(10.0, power / 10.0) / 1000.0;    // Watt
+                double P_noise = pow(10.0, noise_power / 10.0) / 1000.0;    // Watt
+                double capacity = bandwidth * 1000000.0 * log2(1.0 + (P_sig / P_noise));    // bps
+                double transmission_time = (bit_size / capacity) * 1000.0;  // ms
+                // double propagation_time = (length * 1000 / (velocity * 10000000.0)) * 1000.0;    // ms
+                double propagation_time = (length / (velocity * 10.0));    // ms
+                double delay = propagation_time + transmission_time;
+
+
+                // round to . 2nd digits
+                transmission_time = round(transmission_time * 100) / 100;
+                propagation_time = round(propagation_time * 100) / 100;
+                delay = round(delay * 100) / 100;
+
 
                 strcpy(send_buffer, "1");
                 stringstream dd, tt, pt;

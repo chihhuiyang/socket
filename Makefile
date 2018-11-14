@@ -1,20 +1,20 @@
-all: servera.cpp serverb.cpp serverc.cpp client.cpp aws.cpp monitor.cpp
-	g++ -o serverA servera.cpp  -lnsl -lresolv
-	g++ -o serverB serverb.cpp  -lnsl -lresolv
-	g++ -o serverC serverc.cpp  -lnsl -lresolv
+all: serverA.cpp serverB.cpp serverC.cpp client.cpp aws.cpp monitor.cpp
+	g++ -o serverAoutput serverA.cpp  -lnsl -lresolv
+	g++ -o serverBoutput serverB.cpp  -lnsl -lresolv
+	g++ -o serverCoutput serverC.cpp  -lnsl -lresolv
 	g++ -o client client.cpp  -lnsl -lresolv
-	g++ -o aws aws.cpp  -lnsl -lresolv
-	g++ -o monitor monitor.cpp  -lnsl -lresolv	
+	g++ -o awsoutput aws.cpp  -lnsl -lresolv
+	g++ -o monitoroutput monitor.cpp  -lnsl -lresolv
 .PHONY: serverA serverB serverC aws monitor
 serverA: 
-	./serverA
+	./serverAoutput
 serverB: 
-	./serverB
+	./serverBoutput
 serverC: 
-	./serverC
+	./serverCoutput
 aws:
-	./aws
+	./awsoutput
 monitor: 
-	./monitor
+	./monitoroutput
 clean:
-	-rm -f servera serverb serverc client aws monitor
+	-rm -f serverAoutput serverBoutput serverCoutput client awsoutput monitoroutput
