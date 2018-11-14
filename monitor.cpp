@@ -78,18 +78,7 @@ int main() {
     server_addr.sin_addr.s_addr = inet_addr(localhost);
     server_addr.sin_port = AWS_MONITOR_TCP_PORT;
 
-    // create socket
-    int sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (sock < 0) {
-        perror("Failed to create TCP socket.");
-        exit(1);
-    }
 
-    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-        close(sock);
-        perror("Failed to connect.");
-        exit(1);
-    }
     cout << "The monitor is up and running" << endl;
 
     // buffer
@@ -102,7 +91,19 @@ int main() {
     // connect
     while (true) {
 
- 
+         // create socket
+        int sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (sock < 0) {
+            perror("Failed to create TCP socket.");
+            exit(1);
+        }
+
+        if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+            close(sock);
+            perror("Failed to connect.");
+            exit(1);
+        }
+
         // cout << "receive from aws" << endl;
         // receive input from aws
         int recv_len = recv(sock, recv_buffer, sizeof(recv_buffer), 0);
@@ -141,10 +142,12 @@ int main() {
                 cout << "Delay = <" << delay << ">ms" << endl;
             }
         }
+
+        close(sock);
    
     }
 
-    close(sock);
+    
 
     return 0;
 }
