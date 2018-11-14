@@ -1,0 +1,40 @@
+a. Your Full Name as given in the class list
+Chih-Hui Yang
+
+b. Your Student ID
+8943831068
+
+c. What you have done in the assignment.
+I have done all the functionalities mentioned in the project specification.
+In server A and B, I created map data structure for the database, so once a client sends the link id to AWS, and AWS send the request link id to server A and B, the 2 servers will quickly find a match or no matches, and send the result back to AWS. Then, AWS sends the link information to server C for calculating delay time. After finishing calculation, server C will send the delay time to AWS, and AWS sends the result to both client and monitor. Besides, the client can request multiple times for different link id, all the servers will not terminate before pressing ctl-C.
+
+d. What your code files are and what each one of them does. (Please do not
+repeat the project description, just name your code files and briefly mention
+what they do).
+servera.cpp : receive the request from AWS, build mapA for database_a.csv, find a match or no matches for link id, sent the result to AWS.
+serverb.cpp : receive the request from AWS, build mapB for database_b.csv, find a match or no matches for link id, sent the result to AWS.
+serverc.cpp : receive the request from AWS, do the calculation for delay time if serverA or serverB found a match, sent the result to AWS.
+aws.cpp : send and receive data to server A, B, C via UDP, monitor, and client via TCP.
+monitor.cpp : send and receive the data to AWS via TCP.
+client.cpp : send and receive the data to AWS via TCP.
+
+e. The format of all the messages exchanged.
+String with length(buffer_size)
+servera.cpp : send "1 bandwidth length velocity noise_power" or "0" to AWS
+serverb.cpp : send "1 bandwidth length velocity noise_power" or "0" to AWS
+serverc.cpp : send 1 delay transmission_time propagation_time" or "0" to AWS
+aws.cpp : send "1 link_id bit_size power 1 bandwidth length velocity noise_power" or "0" to server C
+monitor.cpp : receive "1 delay transmission_time propagation_time"  or "0" 
+client.cpp : receive "1 delay transmission_time propagation_time"  or "0"
+
+g. Any idiosyncrasy of your project. It should say under what conditions the project
+fails, if any.
+AWS will listen to monitor first, then listen to client.
+So the execution order would be ./aws -> ./monitor -> ./client
+If we quickly executed ./monitor immediately after ./aws, AWS might possible didn't get the message from monitor.
+The solution is to just Not run ./monitor immediately after ./aws.
+Wait 2 seconds is enough.
+
+h. Reused Code: Did you use code from anywhere for your project? If not, say so.
+If so, say what functions and where they're from. (Also identify this with a comment in the source code.)
+I referenced "Beej's Guide to Network Programming" for all the socket initialization code.
