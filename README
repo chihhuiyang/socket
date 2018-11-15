@@ -29,8 +29,7 @@ client.cpp : receive "1 delay transmission_time propagation_time"  or "0"
 
 g. Any idiosyncrasy of your project. It should say under what conditions the project
 fails, if any.
-If we sent Ctr-C to AWS before we sent Ctr-C to monitor.
-Next time when we executes ./monitoroutput, we might suffer Connection refused.
+If we sent Ctr-C to AWS before we sent Ctr-C to monitor, next time when we executes ./monitoroutput, we might suffer Connection refused.
 Need to wait for a while (1 min) and restart AWS again to make monitor reconnect successfully.
 
 h. Reused Code: Did you use code from anywhere for your project? If not, say so.
